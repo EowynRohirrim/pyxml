@@ -1,0 +1,212 @@
+<odoo>
+    <data>
+
+        <!-- Vistas -->
+        
+        <!-- Vista árbol y formulario para alquiler.categoria -->
+        <record model="ir.ui.view" id="alquiler_categoria_tree">
+            <field name="name">alquiler.categoria.tree</field>
+            <field name="model">alquiler.categoria</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="descripcion"/>
+                    <field name="num_coches"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="alquiler_categoria_form">
+            <field name="name">alquiler.categoria.form</field>
+            <field name="model">alquiler.categoria</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="descripcion"/>
+                        </group>
+                        <notebook>
+                            <page string="Coches">
+                                <field name="coches"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista árbol y formulario para alquiler.coche -->
+        <record model="ir.ui.view" id="alquiler_coche_tree">
+            <field name="name">alquiler.coche.tree</field>
+            <field name="model">alquiler.coche</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="precio_alquiler"/>
+                    <field name="ano_fabricacion"/>
+                    <field name="categoria_id"/>
+                    <field name="estado"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="alquiler_coche_form">
+            <field name="name">alquiler.coche.form</field>
+            <field name="model">alquiler.coche</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="precio_alquiler"/>
+                            <field name="ano_fabricacion"/>
+                            <field name="categoria_id"/>
+                            <field name="estado"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+		
+		<!-- Vista árbol y formulario para alquiler.reserva -->
+		<record model="ir.ui.view" id="alquiler_reserva_tree">
+			<field name="name">alquiler.reserva.tree</field>
+			<field name="model">alquiler.reserva</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="cliente_id"/>
+					<field name="coche_id"/>
+					<field name="precio_alquiler"/>
+					<field name="dias_reserva"/>
+					<field name="precio_seguro"/>
+					<field name="impuesto"/>
+					<field name="importe_total"/>
+				</tree>
+			</field>
+		</record>
+
+        <!-- Vista formulario para alquiler.reserva -->
+        <record model="ir.ui.view" id="alquiler_reserva_form">
+            <field name="name">alquiler.reserva.form</field>
+            <field name="model">alquiler.reserva</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="cliente_id"/>
+                            <field name="coche_id"/>
+                            <field name="precio_alquiler"/>
+                            <field name="dias_reserva"/>
+                            <field name="precio_seguro"/>
+                            <field name="importe_impuesto"/>
+                            <field name="impuesto"/>
+							<field name="importe_total"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+		
+		
+		
+		<!-- Vista árbol para alquiler.cliente -->
+		<record model="ir.ui.view" id="alquiler_cliente_tree">
+			<field name="name">alquiler.cliente.tree</field>
+			<field name="model">alquiler.cliente</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="nombre"/>
+					<field name="apellido"/>
+					<field name="direccion"/>
+					<field name="telefono"/>
+				</tree>
+			</field>
+		</record>
+		
+        <!-- Vista formulario para alquiler.cliente -->
+        <record model="ir.ui.view" id="alquiler_cliente_form">
+            <field name="name">alquiler.cliente.form</field>
+            <field name="model">alquiler.cliente</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="nombre"/>
+                            <field name="apellido"/>
+                            <field name="direccion"/>
+                            <field name="telefono"/>
+                        </group>
+                        <notebook>
+                            <page string="Reservas">
+                                <field name="reservas"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+		<!-- Busquedas y filtros -->
+		<record id="view_alquiler_coche_search" model="ir.ui.view">
+			<field name="name">alquiler.coche.search</field>
+			<field name="model">alquiler.coche</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="name" string="Nombre"/>
+					<field name="categoria_id" string="Categoría" filter_domain="['|', ('categoria_id', '=', False), ('categoria_id', 'ilike', self)]"/>
+					<filter name="coches_baratos" string="Coches Baratos" domain="[('precio_alquiler', '&lt;=', 50)]"/>
+				</search>
+			</field>
+		</record>
+
+
+        <!-- Action Windows -->
+        
+        <!-- Acción para alquiler.categoria -->
+        <record model="ir.actions.act_window" id="alquiler_categoria_action_window">
+            <field name="name">Categorías</field>
+            <field name="res_model">alquiler.categoria</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Acción para alquiler.coche -->
+        <record model="ir.actions.act_window" id="alquiler_coche_action_window">
+            <field name="name">Coches</field>
+            <field name="res_model">alquiler.coche</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Acción para alquiler.reserva -->
+        <record model="ir.actions.act_window" id="alquiler_reserva_action_window">
+            <field name="name">Reservas</field>
+            <field name="res_model">alquiler.reserva</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Acción para alquiler.cliente -->
+        <record model="ir.actions.act_window" id="alquiler_cliente_action_window">
+            <field name="name">Clientes</field>
+            <field name="res_model">alquiler.cliente</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menús -->
+        
+        <!-- Menú Alquiler -->
+        <menuitem name="Alquiler" id="menu_alquiler_root"/>
+        
+        <!-- Menú Categorías -->
+        <menuitem name="Categorías" id="menu_alquiler_categoria" parent="menu_alquiler_root" action="alquiler_categoria_action_window"/>
+
+        <!-- Menú Coches -->
+        <menuitem name="Coches" id="menu_alquiler_coche" parent="menu_alquiler_root" action="alquiler_coche_action_window"/>
+
+        <!-- Menú Reservas -->
+        <menuitem name="Reservas" id="menu_alquiler_reserva" parent="menu_alquiler_root" action="alquiler_reserva_action_window"/>
+
+        <!-- Menú Clientes -->
+        <menuitem name="Clientes" id="menu_alquiler_cliente" parent="menu_alquiler_root" action="alquiler_cliente_action_window"/>
+
+    </data>
+</odoo>
